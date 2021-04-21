@@ -1,5 +1,5 @@
 FROM java:8
 VOLUME /tmp
-ADD ./target/blog-admin-2.2.3.jar blog-admin.jar
+ADD ./target/blog-admin.jar blog-admin.jar
 EXPOSE 8085
 ENTRYPOINT ["java", "-jar", "blog-admin.jar", "--spring.profiles.active=dev", "> /root/log/blog-admin.log"]
