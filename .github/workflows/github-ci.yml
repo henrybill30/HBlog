@@ -21,10 +21,8 @@ jobs:
       with:
         java-version: '8'
         distribution: 'adopt'
-    - name: Build blog-admin with Maven
-      run: mvn -B package --file ./blog-admin/pom.xml
-    - name: Build blog-web with Maven
-      run: mvn -B package --file ./blog-web/pom.xml
+    - name: Build blog with Maven
+      run: mvn -X clean package -Dmaven.test.skip=true
     - name: Build blog-admin Docker Image and Push to Registry
       env: 
         docker_repo: byhuang/hblog
