@@ -1,0 +1,5 @@
+FROM java:8
+VOLUME /tmp
+ADD ./target/blog-web-2.2.3.jar blog-web.jar
+EXPOSE 8085
+ENTRYPOINT ["java", "-jar", "blog-web.jar", "--spring.profiles.active=dev", "> /root/log/blog-web.log"]
