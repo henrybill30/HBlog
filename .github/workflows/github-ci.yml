@@ -27,9 +27,9 @@ jobs:
       env: 
         docker_repo: byhaung
         # 指定镜像名称
-        image_name: hblog-admin
+        image_name: hblog
         # 指定镜像标签
-        tag: lastest
+        tag: blog-admin
       run: | 
         # 查看docker 版本
         docker version
@@ -45,9 +45,9 @@ jobs:
       env: 
         docker_repo: byhaung
         # 指定镜像名称
-        image_name: hblog-web
+        image_name: hblog
         # 指定镜像标签
-        tag: lastest
+        tag: blog-web
       run: | 
         # 查看docker 版本
         docker version
