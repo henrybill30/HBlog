@@ -1,0 +1,59 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+    - name: Build blog-admin with Maven
+      run: mvn -B package --file ../../blog-admin/pom.xml
+    - name: Build blog-web with Maven
+      run: mvn -B package --file ../../blog-web/pom.xml
+    - name: Build blog-admin Docker Image and Push to Registry
+      env: 
+        docker_repo: byhuang/hblog
+        # 指定镜像名称
+        image_name: blog-admin
+        # 指定镜像标签
+        tag: lastest
+      run: | 
+        # 查看docker 版本
+        docker version
+        # 登录阿里云镜像仓库， 这里登录docker的用户名和密码在Secrets中设置，下面有介绍
+        docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-shenzhen.aliyuncs.com
+        # 使用Dockerfile构建镜像
+        docker build . --file ../../blog-admin/DockerFile --tag $docker_repo/$image_name:$tag
+        # 推送镜像到镜像仓库
+        docker push $docker_repo/$image_name:$tag
+    - name: Build blog-admin Docker Image and Push to Registry
+      env: 
+        docker_repo: byhuang/hblog
+        # 指定镜像名称
+        image_name: blog-web
+        # 指定镜像标签
+        tag: lastest
+      run: | 
+        # 查看docker 版本
+        docker version
+        # 登录阿里云镜像仓库， 这里登录docker的用户名和密码在Secrets中设置，下面有介绍
+        docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-shenzhen.aliyuncs.com
+        # 使用Dockerfile构建镜像
+        docker build . --file ../../blog-web/DockerFile --tag $docker_repo/$image_name:$tag
+        # 推送镜像到镜像仓库
+        docker push $docker_repo/$image_name:$tag
