@@ -25,9 +25,9 @@ jobs:
       run: mvn -X clean package -Dmaven.test.skip=true
     - name: Build blog-admin Docker Image and Push to Registry
       env: 
-        docker_repo: byhaung/hblog
+        docker_repo: byhaung
         # 指定镜像名称
-        image_name: blog-admin
+        image_name: hblog-admin
         # 指定镜像标签
         tag: lastest
       run: | 
@@ -43,9 +43,9 @@ jobs:
         docker push $docker_repo/$image_name:$tag
     - name: Build blog-admin Docker Image and Push to Registry
       env: 
-        docker_repo: byhaung/hblog
+        docker_repo: byhaung
         # 指定镜像名称
-        image_name: blog-web
+        image_name: hblog-web
         # 指定镜像标签
         tag: lastest
       run: | 
