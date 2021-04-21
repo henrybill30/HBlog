@@ -38,7 +38,7 @@ jobs:
         # 使用Dockerfile构建镜像
         docker build . --file ./blog-admin/DockerFile --tag $docker_repo/$image_name:$tag
         # 为镜像打tag
-        docker tag $image_name $docker_repo/$image_name:$tag
+        docker tag $image_name $docker_repo/$image_name
         # 推送镜像到镜像仓库
         docker push $docker_repo/$image_name:$tag
     - name: Build blog-admin Docker Image and Push to Registry
@@ -58,4 +58,4 @@ jobs:
         # 为镜像打tag
         docker tag $image_name $docker_repo/$image_name:$tag
         # 推送镜像到镜像仓库
-        docker push $docker_repo/$image_name:$tag
+        docker push $docker_repo/$image_name
