@@ -59,3 +59,21 @@ jobs:
         docker tag $image_name:$tag $docker_repo/$image_name:$tag
         # 推送镜像到镜像仓库
         docker push $docker_repo/$image_name:$tag
+
+  deploy-pro:
+    needs: [build]
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          port: ${{ secrets.HOST_PORT }}
+          script: |
+            cd ~/DBlog/
+            docker-compose pull
+            docker-compose down
+            docker-compose -f docker-compose.yml up -d
